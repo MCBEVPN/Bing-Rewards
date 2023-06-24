@@ -1,0 +1,29 @@
+﻿<MetroWindow
+    x:Class="Bing_Rewards.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Bing_Rewards"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
+    Title="Bing Rewards"
+    Width="900"
+    Height="650"
+    MinWidth="600"
+    MinHeight="650"
+    IsShowTitle="False"
+    mc:Ignorable="d">
+
+    <MetroWindow.LeftWindowCommands>
+        <DockPanel Margin="10,10,0,0">
+            <svg:SvgViewbox
+                Height="25"
+                IsHitTestVisible="False"
+                Source="Images/rewards.svg" />
+            <TextBlock Margin="5,5,0,0">Bing</TextBlock>
+        </DockPanel>
+    </MetroWindow.LeftWindowCommands>
+    <Grid>
+        <Frame x:Name="frame" NavigationUIVisibility="Hidden" />
+    </Grid>
+</MetroWindow>

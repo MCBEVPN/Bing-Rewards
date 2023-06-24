@@ -1,0 +1,80 @@
+﻿<Page
+    x:Class="Bing_Rewards.Pages.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Bing_Rewards.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
+    Title="LoginPage"
+    d:DesignHeight="650"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Grid x:Name="grid">
+        <svg:SvgViewbox
+            IsHitTestVisible="False"
+            Source="Images/login_background.svg"
+            Stretch="Fill" />
+        <ProgressBar
+            x:Name="pb"
+            Height="1"
+            VerticalAlignment="Top"
+            Foreground="#FFEDCB55"
+            IsIndeterminate="True"
+            IsTabStop="True"
+            Visibility="Collapsed" />
+        <Border
+            x:Name="mainBorder"
+            Margin="100"
+            Background="White"
+            BorderBrush="Black"
+            BorderThickness="1"
+            CornerRadius="20">
+            <Grid Margin="20">
+                <svg:SvgViewbox
+                    Height="25"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Source="Images/logo.svg" />
+                <StackPanel VerticalAlignment="Center">
+                    <DockPanel Height="50">
+                        <TextBlock VerticalAlignment="Center" FontSize="18">邮箱</TextBlock>
+                        <TextBox
+                            x:Name="emailText"
+                            Margin="20,0,0,0"
+                            VerticalAlignment="Stretch"
+                            FontSize="18"
+                            SelectionBrush="#FF42FA00" />
+                    </DockPanel>
+                    <DockPanel Height="50" Margin="0,50,0,0">
+                        <TextBlock VerticalAlignment="Center" FontSize="18">密码</TextBlock>
+                        <PasswordBox
+                            x:Name="pwdText"
+                            Margin="20,0,0,0"
+                            VerticalAlignment="Stretch"
+                            FontSize="18"
+                            KeyDown="PwdText_KeyDown"
+                            SelectionBrush="#FF42FA00" />
+                    </DockPanel>
+                    <DockPanel>
+                        <TextBlock
+                            x:Name="errorText"
+                            Margin="50,0,0,0"
+                            VerticalAlignment="Bottom"
+                            FontSize="38"
+                            Foreground="#FFFD6969" />
+                        <Button
+                            Width="150"
+                            Height="50"
+                            Margin="0,50,0,0"
+                            HorizontalAlignment="Right"
+                            Click="LoginClick"
+                            Content="登录"
+                            FontSize="18" />
+                    </DockPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
