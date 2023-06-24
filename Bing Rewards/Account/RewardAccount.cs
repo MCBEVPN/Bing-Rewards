@@ -1,5 +1,6 @@
 ﻿using Bing_Rewards.Utilities;
 using General.Json;
+using General.Json.Linq;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -76,7 +77,7 @@ namespace Bing_Rewards.Account
 
         public async Task<string?> GetuserInfo()
         {
-            Uri uri = new($"https://rewards.bing.com/api/getuserinfo?type=1&X-Requested-With=XMLHttpRequest&_={TimeUtility.GetTimeStamp()}");
+            Uri uri = new($"https://rewards.bing.com/api/getuserinfo?type=5&X-Requested-With=XMLHttpRequest&_={TimeUtility.GetTimeStamp()}");
             HttpClientHandler handler = new() { CookieContainer = _cookies };
             using HttpClient httpClient = new(handler);
             httpClient.DefaultRequestHeaders.Referrer = new("https://rewards.bing.com/");
@@ -91,6 +92,91 @@ namespace Bing_Rewards.Account
                 return null;
             }
             return responseString;
+        }
+
+        public async Task<bool> SearchFromPC(string q)
+        {
+            if (await CheckPCComplete())
+            {
+                return true;
+            }
+            string bingSearchUrl = "https://bing.com/search?q=" + q;
+            Uri uri = new(bingSearchUrl);
+            HttpClientHandler handler = new() { CookieContainer = _cookies };
+            using HttpClient httpClient = new(handler);
+            httpClient.DefaultRequestHeaders.Referrer = new("https://bing.com/");
+            httpClient.SetUserAgent();
+            string html = await httpClient.GetResponseString(uri);
+            string IG = Regex.Match(html, @"IG:""(.*?)""").Groups[1].Value;
+
+            string rewardUrl = $"https://bing.com/rewardsapp/reportActivity?IG={IG}&IID=SERP.5054&q=%E4%BB%8A%E5%A4%A9&aqs=edge..69i57.9532j0j4&FORM=ANCMS9&PC=U531";
+            uri = new(rewardUrl);
+            Dictionary<string, string> parameters = new()
+            {
+                { "url", rewardUrl },
+                { "V", "web" }
+            };
+            FormUrlEncodedContent encodedContent = new(parameters);
+            httpClient.DefaultRequestHeaders.Referrer = new(rewardUrl);
+            await httpClient.PostAsync(uri, encodedContent);
+            return false;
+        }
+
+        public async Task<bool> SearchFromMobile(string q)
+        {
+            if (await CheckMobileComplete())
+            {
+                return true;
+            }
+            string bingSearchUrl = "https://bing.com/search?q=" + q;
+            Uri uri = new(bingSearchUrl);
+            HttpClientHandler handler = new() { CookieContainer = _cookies };
+            using HttpClient httpClient = new(handler);
+            httpClient.DefaultRequestHeaders.Referrer = new("https://bing.com/");
+            httpClient.SetUserAgentWithMobile();
+            string html = await httpClient.GetResponseString(uri);
+            string ig = Regex.Match(html, @"IG:""(.*?)""").Groups[1].Value;
+
+            string rewardUrl = $"https://bing.com/rewardsapp/reportActivity?IG={ig}&IID=SERP.6000.5395&q={q}&qs=LT&sk=PRES1&sc=10-2&FORM=QBRE&sp=1&lq=0";
+            uri = new(rewardUrl);
+            Dictionary<string, string> parameters = new()
+            {
+                { "url", rewardUrl },
+                { "V", "web" }
+            };
+            FormUrlEncodedContent encodedContent = new(parameters);
+            httpClient.DefaultRequestHeaders.Referrer = new(rewardUrl);
+            await httpClient.PostAsync(uri, encodedContent);
+            return false;
+        }
+
+        private async Task<bool> CheckMobileComplete()
+        {
+            try
+            {
+                JObject stateObj = JObject.Parse(await GetuserInfo());
+                bool complete = (bool)stateObj["status"]["userStatus"]["counters"]["mobileSearch"][0]["complete"];
+                return complete;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private async Task<bool> CheckPCComplete()
+        {
+            try
+            {
+                JObject stateObj = JObject.Parse(await GetuserInfo());
+                bool complete0 = (bool)stateObj["status"]["userStatus"]["counters"]["pcSearch"][0]["complete"];
+                bool complete1 = (bool)stateObj["status"]["userStatus"]["counters"]["pcSearch"][1]["complete"];
+                return complete0 && complete1;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public void AddCookies(CookieCollection cookies)

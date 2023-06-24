@@ -36,6 +36,11 @@ namespace Bing_Rewards.Pages
                     PlayErrorAnimation();
                     mainBorder.IsEnabled = true;
                 };
+                rewardAccount.LoadSucceeded += delegate
+                {
+                    pb.Visibility = Visibility.Collapsed;
+                    rewardAccount.SearchFromPC(QuestionUtility.GetRandomQuestion());
+                };
 
                 PlayEndAnimation();
             }
