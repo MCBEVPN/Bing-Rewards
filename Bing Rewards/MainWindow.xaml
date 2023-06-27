@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Bing_Rewards"
-    xmlns:local2="clr-namespace:Bing_Rewards.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
     Title="Bing Rewards"
@@ -13,7 +12,6 @@
     MinWidth="600"
     MinHeight="650"
     IsShowTitle="False"
-    Loaded="MetroWindow_Loaded"
     mc:Ignorable="d">
 
     <MetroWindow.LeftWindowCommands>
@@ -26,73 +24,6 @@
         </DockPanel>
     </MetroWindow.LeftWindowCommands>
     <Grid>
-        <svg:SvgViewbox
-            Height="150"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Source="Images/edge.svg">
-            <svg:SvgViewbox.Effect>
-                <DropShadowEffect
-                    BlurRadius="20"
-                    Direction="270"
-                    Opacity="0.5"
-                    ShadowDepth="5"
-                    Color="Black" />
-            </svg:SvgViewbox.Effect>
-        </svg:SvgViewbox>
         <Frame x:Name="frame" NavigationUIVisibility="Hidden" />
-        <local2:ToolsControl
-            x:Name="tc"
-            Margin="0,50,0,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top">
-            <local2:ToolsControl.Effect>
-                <DropShadowEffect
-                    BlurRadius="20"
-                    Direction="270"
-                    Opacity="0.5"
-                    ShadowDepth="5"
-                    Color="Black" />
-            </local2:ToolsControl.Effect>
-        </local2:ToolsControl>
-        <local2:SlideBarControl
-            x:Name="sbc"
-            Margin="20,50,0,50"
-            HorizontalAlignment="Left">
-            <local2:SlideBarControl.Effect>
-                <DropShadowEffect
-                    BlurRadius="20"
-                    Direction="270"
-                    Opacity="0.5"
-                    ShadowDepth="5"
-                    Color="Black" />
-            </local2:SlideBarControl.Effect>
-        </local2:SlideBarControl>
-        <StackPanel x:Name="notic"
-            Width="260"
-            Margin="0,50,10,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top" />
-        <Grid
-            x:Name="helpGrid"
-            Background="#7FFFFFFF"
-            Visibility="Collapsed">
-            <Image Source="/Images/tutorial.png" />
-        </Grid>
-        <Grid
-            x:Name="aboutGrid"
-            Background="#7FFFFFFF"
-            Visibility="Collapsed">
-            <local2:AboutControl Margin="50">
-                <local2:AboutControl.Effect>
-                    <DropShadowEffect
-                        BlurRadius="20"
-                        Direction="270"
-                        Opacity="0.5"
-                        ShadowDepth="5"
-                        Color="Black" />
-                </local2:AboutControl.Effect>
-            </local2:AboutControl>
-        </Grid>
     </Grid>
 </MetroWindow>

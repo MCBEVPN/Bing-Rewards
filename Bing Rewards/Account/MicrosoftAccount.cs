@@ -32,11 +32,7 @@ namespace Bing_Rewards.Account
             HttpClientHandler handler = new() { CookieContainer = _cookies };
             using HttpClient httpClient = new(handler);
             httpClient.SetUserAgent();;
-            string? html = await httpClient.GetResponseString(uri);
-            if (string.IsNullOrEmpty(html))
-            {
-                return;
-            }
+            string html = await httpClient.GetResponseString(uri);
             string pattern = @"sFTTag:'<input type=""hidden"" name=""PPFT"" id=""(.*?)"" value=""(.*?)""/>'";
             string ppft = Regex.Match(html, pattern).Groups[2].Value;
 
@@ -47,7 +43,7 @@ namespace Bing_Rewards.Account
                 { "PPFT", ppft }
             };
             FormUrlEncodedContent encodedContent = new(parameters);
-            await httpClient.PostAsync(uri, encodedContent);
+            string responseString = await httpClient.PostResponseString(uri, encodedContent);
         }
 
         public CookieCollection GetCookies()

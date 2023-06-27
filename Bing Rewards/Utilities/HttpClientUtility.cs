@@ -39,52 +39,26 @@ namespace Bing_Rewards.Utilities
             httpClient.DefaultRequestHeaders.UserAgent.Clear();
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.0.0");
         }
-        public static void SetUserAgentWithMobile(this HttpClient httpClient)
+
+        public static async Task<string> GetResponseString(this HttpClient httpClient, Uri uri)
         {
-            httpClient.DefaultRequestHeaders.UserAgent.Clear();
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.58");
+            HttpResponseMessage response = await httpClient.GetAsync(uri);
+            string responseString = await response.Content.ReadAsStringAsync();
+            return responseString;
         }
 
-        public static async Task<string?> GetResponseString(this HttpClient httpClient, Uri uri)
+        public static async Task<string> PostResponseString(this HttpClient httpClient, Uri uri, FormUrlEncodedContent encodedContent)
         {
-            try
-            {
-                HttpResponseMessage response = await httpClient.GetAsync(uri);
-                string responseString = await response.Content.ReadAsStringAsync();
-                return responseString;
-            }
-            catch
-            {
-                return null;
-            }
+            HttpResponseMessage response = await httpClient.PostAsync(uri, encodedContent);
+            string responseString = await response.Content.ReadAsStringAsync();
+            return responseString;
         }
 
-        public static async Task<string?> PostResponseString(this HttpClient httpClient, Uri uri, FormUrlEncodedContent encodedContent)
+        public static async Task<string> PostResponseString(this HttpClient httpClient, Uri uri, MultipartFormDataContent multipartFormDataContent)
         {
-            try
-            {
-                HttpResponseMessage response = await httpClient.PostAsync(uri, encodedContent);
-                string responseString = await response.Content.ReadAsStringAsync();
-                return responseString;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public static async Task<string?> PostResponseString(this HttpClient httpClient, Uri uri, MultipartFormDataContent multipartFormDataContent)
-        {
-            try
-            {
-                HttpResponseMessage response = await httpClient.PostAsync(uri, multipartFormDataContent);
-                string responseString = await response.Content.ReadAsStringAsync();
-                return responseString;
-            }
-            catch
-            {
-                return null;
-            }
+            HttpResponseMessage response = await httpClient.PostAsync(uri, multipartFormDataContent);
+            string responseString = await response.Content.ReadAsStringAsync();
+            return responseString;
         }
     }
 }

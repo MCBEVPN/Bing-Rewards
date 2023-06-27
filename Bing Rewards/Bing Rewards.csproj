@@ -6,29 +6,13 @@
     <RootNamespace>Bing_Rewards</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>rewards.ico</ApplicationIcon>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\edge.svg" />
     <None Remove="Images\login_background.svg" />
     <None Remove="Images\logo.svg" />
     <None Remove="Images\microsoft.svg" />
     <None Remove="Images\rewards.svg" />
-    <None Remove="Images\tutorial.png" />
-    <None Remove="Images\vx.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="rewards.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,12 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\edge.svg" />
     <Resource Include="Images\login_background.svg" />
+    <Resource Include="Images\logo.svg" />
     <Resource Include="Images\microsoft.svg" />
     <Resource Include="Images\rewards.svg" />
-    <Resource Include="Images\tutorial.png" />
-    <Resource Include="Images\vx.png" />
   </ItemGroup>
 
 </Project>

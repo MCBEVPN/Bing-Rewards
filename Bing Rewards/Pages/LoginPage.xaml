@@ -20,9 +20,9 @@
             x:Name="pb"
             Height="1"
             VerticalAlignment="Top"
-            Focusable="False"
-            Foreground="#FFFFE280"
+            Foreground="#FFEDCB55"
             IsIndeterminate="True"
+            IsTabStop="True"
             Visibility="Collapsed" />
         <Border
             x:Name="mainBorder"
@@ -36,7 +36,7 @@
                     Height="25"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Source="Images/microsoft.svg" />
+                    Source="Images/logo.svg" />
                 <StackPanel VerticalAlignment="Center">
                     <DockPanel Height="50">
                         <TextBlock VerticalAlignment="Center" FontSize="18">邮箱</TextBlock>
@@ -62,7 +62,7 @@
                             x:Name="errorText"
                             Margin="50,0,0,0"
                             VerticalAlignment="Bottom"
-                            FontSize="16"
+                            FontSize="38"
                             Foreground="#FFFD6969" />
                         <Button
                             Width="150"

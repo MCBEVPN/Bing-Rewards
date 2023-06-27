@@ -15,32 +15,35 @@ namespace Bing_Rewards.Pages
     /// </summary>
     public partial class LoginPage : Page
     {
-        public event EventHandler? LoginSucceeded;
-        public event EventHandler? LoginFailed;
-
-        public RewardAccount? RewardAccount { get; set; }
-
-        private bool _IsLogin;
+        private const string COOKIE_PATH = "./user_cookies.json";
         public LoginPage()
         {
             InitializeComponent();
-            Initialize();
+            PlayStartAnimation();
+            InitializeCookies();
         }
 
-        private void Initialize()
+        private void InitializeCookies()
         {
-            this.Loaded += delegate
+            if (File.Exists(COOKIE_PATH))
             {
-                if (!_IsLogin)
+                pb.Visibility = Visibility.Visible;
+                mainBorder.IsEnabled = false;
+                RewardAccount rewardAccount = new();
+                rewardAccount.LoadCookies(COOKIE_PATH);
+                rewardAccount.LoadFailed += delegate
                 {
-                    PlayStartAnimation();
-                }
-            };
+                    PlayErrorAnimation();
+                    mainBorder.IsEnabled = true;
+                };
+
+                PlayEndAnimation();
+            }
         }
 
         private async void PlayStartAnimation()
         {
-            await mainBorder.SlideIn(500);
+            await mainBorder.SlideIn(1000);
         }
 
         private async void PlayEndAnimation()
@@ -62,34 +65,25 @@ namespace Bing_Rewards.Pages
 
         private async void Login()
         {
-            _IsLogin = true;
             pb.Visibility = Visibility.Visible;
             MicrosoftAccount microsoftAccount = new(emailText.Text.Trim(), pwdText.Password.Trim());
             await microsoftAccount.Login();
-            RewardAccount = new();
-            RewardAccount.AddCookies(microsoftAccount.GetCookies());
-            if (await RewardAccount.Login())
+            RewardAccount rewardAccount = new();
+            rewardAccount.AddCookies(microsoftAccount.GetCookies());
+            if (await rewardAccount.Login())
             {
-                string? userInfo = await RewardAccount.GetuserInfo();
+                string? userInfo = await rewardAccount.GetuserInfo();
                 if (userInfo != null)
                 {
-                    LoginSucceeded?.Invoke(this, new());
-                }
-                else
-                {
-                    errorText.Text = "请检查网络是否正常，如正常则账号或密码不正确。";
-                    LoginFailed?.Invoke(this, new());
+                    rewardAccount.SaveCookies(COOKIE_PATH);
                 }
             }
             else
             {
                 PlayErrorAnimation();
-                errorText.Text = "请检查网络是否正常，如正常则账号或密码不正确。";
                 mainBorder.IsEnabled = true;
-                LoginFailed?.Invoke(this, new());
             }
             pb.Visibility = Visibility.Collapsed;
-            _IsLogin = false;
         }
 
         private void PwdText_KeyDown(object sender, KeyEventArgs e)
