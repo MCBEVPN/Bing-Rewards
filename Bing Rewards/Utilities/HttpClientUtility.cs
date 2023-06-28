@@ -45,6 +45,22 @@ namespace Bing_Rewards.Utilities
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36 Edg/114.0.1823.58");
         }
 
+        public static void AddDefaultHeadsWithNess(this HttpClient httpClient)
+        {
+            httpClient.DefaultRequestHeaders.Add("sec-ch-ua", "\"Chromium\";v=\"112\", \"Microsoft Edge\";v=\"112\", \"Not:A-Brand\";v=\"99\"");
+            httpClient.DefaultRequestHeaders.Add("sec-ch-ua-arch", "\"x86\"");
+            httpClient.DefaultRequestHeaders.Add("sec-ch-ua-bitness", "\"64\"");
+            httpClient.DefaultRequestHeaders.Add("sec-ch-ua-full-version", "\"112.0.1722.23\"");
+            httpClient.DefaultRequestHeaders.Add("sec-ch-ua-full-version-list", "\"Chromium\";v=\"112.0.5615.39\", \"Microsoft Edge\";v=\"112.0.1722.23\", \"Not:A-Brand\";v=\"99.0.0.0\"");
+            httpClient.DefaultRequestHeaders.Add("sec-ch-ua-mobile", "?0");
+            httpClient.DefaultRequestHeaders.Add("sec-ch-ua-model", "");
+            httpClient.DefaultRequestHeaders.Add("sec-ch-ua-platform", "\"Windows\"");
+            httpClient.DefaultRequestHeaders.Add("sec-ch-ua-platform-version", "\"16.0.0\"");
+            httpClient.DefaultRequestHeaders.Add("sec-fetch-dest", "empty");
+            httpClient.DefaultRequestHeaders.Add("sec-fetch-mode", "cors");
+            httpClient.DefaultRequestHeaders.Add("sec-fetch-site", "same-origin");
+        }
+
         public static async Task<string?> GetResponseString(this HttpClient httpClient, Uri uri)
         {
             try

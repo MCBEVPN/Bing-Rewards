@@ -1,4 +1,5 @@
-﻿using Bing_Rewards.Controls;
+﻿using Bing_Rewards.Account;
+using Bing_Rewards.Controls;
 using Bing_Rewards.Pages;
 using Bing_Rewards.Utilities;
 using System.Threading.Tasks;
@@ -130,12 +131,30 @@ namespace Bing_Rewards
 
         private async void ActiveToolBar()
         {
-            tc.Visibility = Visibility.Visible;
-            tc.IsEnabled = true;
-            await tc.SlideInFromTop(500, -50, 0);
+            if (tc.Visibility == Visibility.Visible)
+            {
+                await DeactiveToolBarAsync();
+                tc.Visibility = Visibility.Visible;
+                tc.IsEnabled = true;
+                await tc.SlideInFromTop(500, -50, 0);
+            }
+            else
+            {
+                tc.Visibility = Visibility.Visible;
+                tc.IsEnabled = true;
+                await tc.SlideInFromTop(500, -50, 0);
+            }
         }
 
         private async void DeactiveToolBar()
+        {
+            await tc.SlideOutFromTop(500, 0, -50);
+            tc.IsEnabled = false;
+            tc.Visibility = Visibility.Collapsed;
+            _IsDel = false;
+        }
+
+        private async Task DeactiveToolBarAsync()
         {
             await tc.SlideOutFromTop(500, 0, -50);
             tc.IsEnabled = false;

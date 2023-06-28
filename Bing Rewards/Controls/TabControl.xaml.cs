@@ -113,9 +113,9 @@ namespace Bing_Rewards.Controls
         {
             if (Account != null)
             {
+                SearchPage.Account = Account;
                 if (Account.UserName is string name)
                 {
-                    SearchPage.Account = Account;
                     this.ToolTip = name;
                     SearchPage.title.Text = name;
                     name = name.ToUpper();
@@ -149,6 +149,7 @@ namespace Bing_Rewards.Controls
             {
                 if (Account.IsLogin)
                 {
+                    Refresh();
                     return SearchPage;
                 }
                 else

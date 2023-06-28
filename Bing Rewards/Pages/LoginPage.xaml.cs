@@ -64,10 +64,10 @@ namespace Bing_Rewards.Pages
         {
             _IsLogin = true;
             pb.Visibility = Visibility.Visible;
-            MicrosoftAccount microsoftAccount = new(emailText.Text.Trim(), pwdText.Password.Trim());
-            await microsoftAccount.Login();
+            BingAccount bingAccount = new(emailText.Text.Trim(), pwdText.Password.Trim());
+            await bingAccount.Login();
             RewardAccount = new();
-            RewardAccount.AddCookies(microsoftAccount.GetCookies());
+            RewardAccount.AddCookies(bingAccount.GetCookies());
             if (await RewardAccount.Login())
             {
                 string? userInfo = await RewardAccount.GetuserInfo();

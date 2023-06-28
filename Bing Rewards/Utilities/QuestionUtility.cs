@@ -69,7 +69,7 @@ namespace Bing_Rewards.Utilities
         public static string GetRandomQuestion()
         {
             string[] questions = Questions;
-            Random random = new Random();
+            Random random = new();
             int index = random.Next(0, questions.Length);
             return questions[index];
         }

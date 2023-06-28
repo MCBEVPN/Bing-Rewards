@@ -1,4 +1,5 @@
 ﻿using Bing_Rewards.Account;
+using Bing_Rewards.Dashboard;
 using Bing_Rewards.States;
 using Bing_Rewards.Utilities;
 using System;
@@ -46,6 +47,10 @@ namespace Bing_Rewards.Pages
                     case RunState.Stopping:
                         start.Content = "正在停止...";
                         break;
+                        
+                    case RunState.Completed:
+                        start.Content = "完成";
+                        break;
                 }
             }
         }
@@ -78,6 +83,9 @@ namespace Bing_Rewards.Pages
                 case RunState.Stopping:
                     RunState = RunState.Stopping;
                     break;
+                case RunState.Completed:
+                    RunState = RunState.Running;
+                    break;
                 default:
                     break;
             }
@@ -98,27 +106,36 @@ namespace Bing_Rewards.Pages
                     {
                         break;
                     }
-                    bool pc = await Account.SearchFromPC(QuestionUtility.GetRandomQuestion());
+                    CompleteDashboard dashboard = await Account.GetComplete();
+                    if (dashboard.PC)
+                    {
+                        await Account.SearchFromPC(QuestionUtility.GetRandomQuestion());
+                    }
+
                     if (CheckStop())
                     {
                         break;
                     }
-                    bool mobile = await Account.SearchFromMobile(QuestionUtility.GetRandomQuestion());
-                    run = !pc || !mobile;
+                    if (dashboard.Mobile)
+                    {
+                        await Account.SearchFromMobile(QuestionUtility.GetRandomQuestion());
+                    }
+                    run = !dashboard.PC || !dashboard.Mobile;
                 }
             }
         }
 
         private bool CheckStop()
         {
-            if (RunState == RunState.Stopping)
+            switch (RunState)
             {
-                RunState = RunState.Stopped;
-                return true;
-            }
-            else
-            {
-                return false;
+                case RunState.Stopping:
+                    RunState = RunState.Stopped;
+                    return true;
+                case RunState.Completed:
+                    return true;
+                default:
+                    return false;
             }
         }
     }

@@ -17,7 +17,7 @@ namespace Bing_Rewards.Account
         public string Email { get; set; }
         public string Password { get; set; }
 
-        private CookieContainer _cookies { get; set; }
+        protected CookieContainer _cookies { get; set; }
 
         public MicrosoftAccount(string email, string password)
         {
@@ -31,7 +31,7 @@ namespace Bing_Rewards.Account
             Uri uri = new("https://login.live.com/ppsecure/post.srf");
             HttpClientHandler handler = new() { CookieContainer = _cookies };
             using HttpClient httpClient = new(handler);
-            httpClient.SetUserAgent();;
+            httpClient.SetUserAgent(); ;
             string? html = await httpClient.GetResponseString(uri);
             if (string.IsNullOrEmpty(html))
             {
@@ -47,7 +47,11 @@ namespace Bing_Rewards.Account
                 { "PPFT", ppft }
             };
             FormUrlEncodedContent encodedContent = new(parameters);
-            await httpClient.PostAsync(uri, encodedContent);
+            try
+            {
+                await httpClient.PostAsync(uri, encodedContent);
+            }
+            catch { }
         }
 
         public CookieCollection GetCookies()

@@ -1,4 +1,6 @@
-﻿using Bing_Rewards.Utilities;
+﻿using Bing_Rewards.Dashboard;
+using Bing_Rewards.Utilities;
+using General;
 using General.Json;
 using General.Json.Linq;
 using HtmlAgilityPack;
@@ -8,6 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -92,7 +96,11 @@ namespace Bing_Rewards.Account
                 { "state", state }
             };
             FormUrlEncodedContent encodedContent = new(parameters);
-            await httpClient.PostAsync(url, encodedContent);
+            try
+            {
+                await httpClient.PostAsync(url, encodedContent);
+            }
+            catch { }
             all_cookie = _cookies.GetAllCookies().ToArray();
         }
 
@@ -123,97 +131,82 @@ namespace Bing_Rewards.Account
             return responseString;
         }
 
-        public async Task<bool> SearchFromPC(string q)
+        public async Task SearchFromPC(string q)
         {
-            if (await CheckPCComplete())
+            try
             {
-                return true;
-            }
-            string bingSearchUrl = "https://bing.com/search?q=" + q;
-            Uri uri = new(bingSearchUrl);
-            HttpClientHandler handler = new() { CookieContainer = _cookies };
-            using HttpClient httpClient = new(handler);
-            httpClient.DefaultRequestHeaders.Referrer = new("https://bing.com/");
-            httpClient.SetUserAgent();
-            string? html = await httpClient.GetResponseString(uri);
-            if (string.IsNullOrEmpty(html))
-            {
-                return false;
-            }
-            string IG = Regex.Match(html, @"IG:""(.*?)""").Groups[1].Value;
+                string bingSearchUrl = "https://bing.com/search?q=" + q;
+                Uri uri = new(bingSearchUrl);
+                HttpClientHandler handler = new() { CookieContainer = _cookies };
+                using HttpClient httpClient = new(handler);
+                httpClient.SetUserAgent();
+                string? html = await httpClient.GetResponseString(uri);
+                if (string.IsNullOrEmpty(html))
+                {
+                    return;
+                }
+                string IG = Regex.Match(html, @"IG:""(.*?)""").Groups[1].Value;
 
-            string rewardUrl = $"https://bing.com/rewardsapp/reportActivity?IG={IG}&IID=SERP.5054&q={q}&aqs=edge..69i57.9532j0j4&FORM=ANCMS9&PC=U531";
-            uri = new(rewardUrl);
-            Dictionary<string, string> parameters = new()
-            {
-                { "url", rewardUrl },
-                { "V", "web" }
-            };
-            FormUrlEncodedContent encodedContent = new(parameters);
-            httpClient.DefaultRequestHeaders.Referrer = new(rewardUrl);
-            await httpClient.PostAsync(uri, encodedContent);
-            return false;
+                string rewardUrl = $"https://bing.com/rewardsapp/reportActivity?IG={IG}&IID=SERP.5054&q={q}";
+                uri = new(rewardUrl);
+                Dictionary<string, string> parameters = new()
+                {
+                    { "url", bingSearchUrl },
+                    { "V", "web" }
+                };
+                FormUrlEncodedContent encodedContent = new(parameters);
+                httpClient.DefaultRequestHeaders.Referrer = new(bingSearchUrl);
+                httpClient.AddDefaultHeadsWithNess();
+                await httpClient.PostAsync(uri, encodedContent);
+            }
+            catch { }
         }
 
-        public async Task<bool> SearchFromMobile(string q)
+        public async Task SearchFromMobile(string q)
         {
-            if (await CheckMobileComplete())
+            try
             {
-                return true;
-            }
-            string bingSearchUrl = "https://bing.com/search?q=" + q;
-            Uri uri = new(bingSearchUrl);
-            HttpClientHandler handler = new() { CookieContainer = _cookies };
-            using HttpClient httpClient = new(handler);
-            httpClient.DefaultRequestHeaders.Referrer = new("https://bing.com/");
-            httpClient.SetUserAgentWithMobile();
-            string? html = await httpClient.GetResponseString(uri);
-            if (string.IsNullOrEmpty(html))
-            {
-                return false;
-            }
-            string ig = Regex.Match(html, @"IG:""(.*?)""").Groups[1].Value;
+                string bingSearchUrl = "https://bing.com/search?q=" + q;
+                Uri uri = new(bingSearchUrl);
+                HttpClientHandler handler = new() { CookieContainer = _cookies };
+                using HttpClient httpClient = new(handler);
+                httpClient.DefaultRequestHeaders.Referrer = new(bingSearchUrl);
+                httpClient.SetUserAgentWithMobile();
+                string? html = await httpClient.GetResponseString(uri);
+                if (string.IsNullOrEmpty(html))
+                {
+                    return;
+                }
+                string ig = Regex.Match(html, @"IG:""(.*?)""").Groups[1].Value;
 
-            string rewardUrl = $"https://bing.com/rewardsapp/reportActivity?IG={ig}&IID=SERP.6000.5395&q={q}&qs=LT&sk=PRES1&sc=10-2&FORM=QBRE&sp=1&lq=0";
-            uri = new(rewardUrl);
-            Dictionary<string, string> parameters = new()
-            {
-                { "url", rewardUrl },
-                { "V", "web" }
-            };
-            FormUrlEncodedContent encodedContent = new(parameters);
-            httpClient.DefaultRequestHeaders.Referrer = new(rewardUrl);
-            await httpClient.PostAsync(uri, encodedContent);
-            return false;
+                string rewardUrl = $"https://bing.com/rewardsapp/reportActivity?IG={ig}&IID=SERP.6000.5395&q={q}&qs=LT&sk=PRES1&sc=10-2&FORM=QBRE&sp=1&lq=0";
+                uri = new(rewardUrl);
+                Dictionary<string, string> parameters = new()
+                {
+                    { "url", bingSearchUrl },
+                    { "V", "web" }
+                };
+                FormUrlEncodedContent encodedContent = new(parameters);
+                httpClient.DefaultRequestHeaders.Referrer = new(bingSearchUrl);
+                await httpClient.PostAsync(uri, encodedContent);
+            }
+            catch { }
         }
 
-        private async Task<bool> CheckMobileComplete()
+        public async Task<CompleteDashboard> GetComplete()
         {
+            CompleteDashboard completeDashboard = new();
             try
             {
                 JObject stateObj = JObject.Parse(await GetuserInfo());
                 bool complete = (bool)stateObj["status"]["userStatus"]["counters"]["mobileSearch"][0]["complete"];
-                return complete;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private async Task<bool> CheckPCComplete()
-        {
-            try
-            {
-                JObject stateObj = JObject.Parse(await GetuserInfo());
                 bool complete0 = (bool)stateObj["status"]["userStatus"]["counters"]["pcSearch"][0]["complete"];
                 bool complete1 = (bool)stateObj["status"]["userStatus"]["counters"]["pcSearch"][1]["complete"];
-                return complete0 && complete1;
+                completeDashboard.PC = complete0 && complete1;
+                completeDashboard.Mobile = complete;
             }
-            catch
-            {
-                return false;
-            }
+            catch { }
+            return completeDashboard;
         }
 
         public async Task<string> GetUserName()

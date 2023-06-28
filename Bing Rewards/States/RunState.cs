@@ -10,6 +10,7 @@ namespace Bing_Rewards.States
     {
         Running,
         Stopped,
-        Stopping
+        Stopping,
+        Completed
     }
 }
