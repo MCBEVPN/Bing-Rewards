@@ -9,10 +9,12 @@
     Title="LoginPage"
     d:DesignHeight="650"
     d:DesignWidth="800"
+    Focusable="False"
     mc:Ignorable="d">
 
-    <Grid x:Name="grid">
+    <Grid x:Name="grid" Focusable="False">
         <svg:SvgViewbox
+            Focusable="False"
             IsHitTestVisible="False"
             Source="Images/login_background.svg"
             Stretch="Fill" />
@@ -30,8 +32,9 @@
             Background="White"
             BorderBrush="Black"
             BorderThickness="1"
-            CornerRadius="20">
-            <Grid Margin="20">
+            CornerRadius="20"
+            Focusable="False">
+            <Grid Margin="20" Focusable="False">
                 <svg:SvgViewbox
                     Height="25"
                     HorizontalAlignment="Left"

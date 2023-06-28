@@ -25,7 +25,7 @@
             <TextBlock Margin="5,5,0,0">Bing</TextBlock>
         </DockPanel>
     </MetroWindow.LeftWindowCommands>
-    <Grid>
+    <Grid Focusable="False">
         <svg:SvgViewbox
             Height="150"
             HorizontalAlignment="Center"
@@ -68,7 +68,8 @@
                     Color="Black" />
             </local2:SlideBarControl.Effect>
         </local2:SlideBarControl>
-        <StackPanel x:Name="notic"
+        <StackPanel
+            x:Name="notic"
             Width="260"
             Margin="0,50,10,0"
             HorizontalAlignment="Right"

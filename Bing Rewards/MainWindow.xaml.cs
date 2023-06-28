@@ -2,6 +2,9 @@
 using Bing_Rewards.Controls;
 using Bing_Rewards.Pages;
 using Bing_Rewards.Utilities;
+using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;

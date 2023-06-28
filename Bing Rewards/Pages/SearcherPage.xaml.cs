@@ -107,7 +107,7 @@ namespace Bing_Rewards.Pages
                         break;
                     }
                     CompleteDashboard dashboard = await Account.GetComplete();
-                    if (dashboard.PC)
+                    if (!dashboard.PC)
                     {
                         await Account.SearchFromPC(QuestionUtility.GetRandomQuestion());
                     }
@@ -116,7 +116,7 @@ namespace Bing_Rewards.Pages
                     {
                         break;
                     }
-                    if (dashboard.Mobile)
+                    if (!dashboard.Mobile)
                     {
                         await Account.SearchFromMobile(QuestionUtility.GetRandomQuestion());
                     }

@@ -147,6 +147,16 @@ namespace Bing_Rewards.Account
                 }
                 string IG = Regex.Match(html, @"IG:""(.*?)""").Groups[1].Value;
 
+                httpClient.AddDefaultHeadsWithNess();
+                Dictionary<string, string> formParameters = new()
+                {
+                    { "wb", "1" },
+                    { "i", "1" },
+                    { "v", "1" }
+                };
+                FormUrlEncodedContent formEncodedContent = new(formParameters);
+                await httpClient.PostAsync($"https://www.bing.com/rewardsapp/ncheader?&IID=SERP.5053&IG={IG}", formEncodedContent);
+
                 string rewardUrl = $"https://bing.com/rewardsapp/reportActivity?IG={IG}&IID=SERP.5054&q={q}";
                 uri = new(rewardUrl);
                 Dictionary<string, string> parameters = new()
@@ -156,7 +166,6 @@ namespace Bing_Rewards.Account
                 };
                 FormUrlEncodedContent encodedContent = new(parameters);
                 httpClient.DefaultRequestHeaders.Referrer = new(bingSearchUrl);
-                httpClient.AddDefaultHeadsWithNess();
                 await httpClient.PostAsync(uri, encodedContent);
             }
             catch { }
@@ -199,10 +208,10 @@ namespace Bing_Rewards.Account
             try
             {
                 JObject stateObj = JObject.Parse(await GetuserInfo());
-                bool complete = (bool)stateObj["status"]["userStatus"]["counters"]["mobileSearch"][0]["complete"];
                 bool complete0 = (bool)stateObj["status"]["userStatus"]["counters"]["pcSearch"][0]["complete"];
                 bool complete1 = (bool)stateObj["status"]["userStatus"]["counters"]["pcSearch"][1]["complete"];
                 completeDashboard.PC = complete0 && complete1;
+                bool complete = (bool)stateObj["status"]["userStatus"]["counters"]["mobileSearch"][0]["complete"];
                 completeDashboard.Mobile = complete;
             }
             catch { }
