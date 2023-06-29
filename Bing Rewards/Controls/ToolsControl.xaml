@@ -5,8 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Bing_Rewards.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="302"
-    Height="50"
+    Width="252"
+    Height="70"
     mc:Ignorable="d">
     <Grid>
         <Border
@@ -17,25 +17,43 @@
             <Grid>
                 <DockPanel Margin="0,0,10,0" LastChildFill="False">
                     <Button
-                        Width="100"
-                        Height="35"
+                        Width="50"
+                        Height="50"
                         Margin="10,0,0,0"
-                        FontSize="14" Click="QueryClick">
-                        查询积分
+                        Click="QueryClick"
+                        FontSize="14"
+                        ToolTip="积分查询">
+                        <Image Width="30" Source="/Images/query.png" />
                     </Button>
                     <Button
-                        Width="80"
-                        Height="35"
+                        Width="50"
+                        Height="50"
                         Margin="10,0,0,0"
-                        FontSize="14" Click="HelpClick">
-                        帮助
+                        Click="CheckClick"
+                        FontSize="14"
+                        ToolTip="检查登录状态">
+                        <Image Width="30" Source="/Images/personal.png" />
                     </Button>
                     <Button
-                        Width="80"
-                        Height="35"
+                        Width="50"
+                        Height="50"
                         Margin="10,0,0,0"
-                        FontSize="14" Click="AboutClick">
-                        关于
+                        Click="HelpClick"
+                        FontSize="14"
+                        ToolTip="帮助">
+                        <Image Width="30" Source="/Images/question.png" />
+                    </Button>
+                    <Button
+                        Width="50"
+                        Height="50"
+                        Margin="10,0,0,0"
+                        Click="AboutClick"
+                        FontSize="14"
+                        ToolTip="关于">
+                        <Image
+                            Width="30"
+                            Opacity="0.8"
+                            Source="/Images/about.png" />
                     </Button>
                 </DockPanel>
             </Grid>

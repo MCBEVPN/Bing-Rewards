@@ -14,6 +14,7 @@ using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Bing_Rewards.Account
 {
@@ -148,14 +149,6 @@ namespace Bing_Rewards.Account
                 string IG = Regex.Match(html, @"IG:""(.*?)""").Groups[1].Value;
 
                 httpClient.AddDefaultHeadsWithNess();
-                Dictionary<string, string> formParameters = new()
-                {
-                    { "wb", "1" },
-                    { "i", "1" },
-                    { "v", "1" }
-                };
-                FormUrlEncodedContent formEncodedContent = new(formParameters);
-                await httpClient.PostAsync($"https://www.bing.com/rewardsapp/ncheader?&IID=SERP.5053&IG={IG}", formEncodedContent);
 
                 string rewardUrl = $"https://bing.com/rewardsapp/reportActivity?IG={IG}&IID=SERP.5054&q={q}";
                 uri = new(rewardUrl);
@@ -239,7 +232,12 @@ namespace Bing_Rewards.Account
             }
             else
             {
-                return nameNode.InnerText;
+                string value = nameNode.InnerText;
+                if (value.Contains("&#"))
+                {
+                    value = HttpUtility.HtmlDecode(value);
+                }
+                return value;
             }
         }
 

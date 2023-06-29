@@ -18,11 +18,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\about.png" />
     <None Remove="Images\edge.svg" />
+    <None Remove="Images\error.png" />
+    <None Remove="Images\identify.png" />
     <None Remove="Images\login_background.svg" />
     <None Remove="Images\logo.svg" />
     <None Remove="Images\microsoft.svg" />
+    <None Remove="Images\personal.png" />
+    <None Remove="Images\query.png" />
+    <None Remove="Images\question.png" />
     <None Remove="Images\rewards.svg" />
+    <None Remove="Images\success.png" />
     <None Remove="Images\tutorial.png" />
     <None Remove="Images\vx.png" />
   </ItemGroup>
@@ -47,10 +54,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\about.png" />
     <Resource Include="Images\edge.svg" />
+    <Resource Include="Images\error.png" />
+    <Resource Include="Images\identify.png" />
     <Resource Include="Images\login_background.svg" />
     <Resource Include="Images\microsoft.svg" />
+    <Resource Include="Images\personal.png" />
+    <Resource Include="Images\query.png" />
+    <Resource Include="Images\question.png" />
     <Resource Include="Images\rewards.svg" />
+    <Resource Include="Images\success.png" />
     <Resource Include="Images\tutorial.png" />
     <Resource Include="Images\vx.png" />
   </ItemGroup>

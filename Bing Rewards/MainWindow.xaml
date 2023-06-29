@@ -70,7 +70,6 @@
         </local2:SlideBarControl>
         <StackPanel
             x:Name="notic"
-            Width="260"
             Margin="0,50,10,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top" />

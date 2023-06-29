@@ -83,6 +83,17 @@ namespace Bing_Rewards.Utilities
             await Task.Delay(duration);
         }
 
+        public static async Task SlideBackWithinFadeIn(this UIElement element, int duration, double from, double to)
+        {
+            element.RenderTransform = new TranslateTransform(from, 0);
+            DoubleAnimation animation = new(from, to, new Duration(TimeSpan.FromMilliseconds(duration)))
+            {
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+            };
+            element.RenderTransform.BeginAnimation(TranslateTransform.XProperty, animation);
+            await Task.Delay(duration);
+        }
+
         public static async Task SlideIn(this UIElement element, int duration)
         {
             await SlideIn(element, duration, 256, 0);
@@ -96,6 +107,11 @@ namespace Bing_Rewards.Utilities
         public static async Task SlideBack(this UIElement element, int duration)
         {
             await SlideBack(element, duration, -256, 0);
+        }
+
+        public static async Task SlideBackWithinFadeIn(this UIElement element, int duration)
+        {
+            await SlideBackWithinFadeIn(element, duration, -256, 0);
         }
 
         public static async Task SlideInFromTop(this UIElement element, int duration)
@@ -134,6 +150,11 @@ namespace Bing_Rewards.Utilities
             await SlideInFromBottom(element, duration, 256, 0);
         }
 
+        public static async Task SlideInFromBottomWithinFadeIn(this UIElement element, int duration)
+        {
+            await SlideInFromBottomWithinFadeIn(element, duration, 256, 0);
+        }
+
         public static async Task SlideOutFromTop(this UIElement element, int duration)
         {
             await SlideOutFromTop(element, duration, 0, -256);
@@ -154,6 +175,17 @@ namespace Bing_Rewards.Utilities
             element.RenderTransform.BeginAnimation(TranslateTransform.YProperty, animation);
 
             element.FadeIn(duration);
+            return Task.Delay(duration);
+        }
+
+        public static Task SlideInFromBottomWithinFadeIn(this UIElement element, int duration, int v1, int v2)
+        {
+            element.RenderTransform = new TranslateTransform(0, v1);
+            DoubleAnimation animation = new(v1, v2, new Duration(TimeSpan.FromMilliseconds(duration)))
+            {
+                EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut }
+            };
+            element.RenderTransform.BeginAnimation(TranslateTransform.YProperty, animation);
             return Task.Delay(duration);
         }
 

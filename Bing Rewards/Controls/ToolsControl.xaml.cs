@@ -21,6 +21,7 @@ namespace Bing_Rewards.Controls
     public partial class ToolsControl : UserControl
     {
         public event EventHandler? QueryClicked;
+        public event EventHandler? CheckClicked;
         public event EventHandler? HelpClicked;
         public event EventHandler? AboutClicked;
 
@@ -32,6 +33,11 @@ namespace Bing_Rewards.Controls
         private void QueryClick(object sender, RoutedEventArgs e)
         {
             QueryClicked?.Invoke(sender, e);
+        }
+
+        private void CheckClick(object sender, RoutedEventArgs e)
+        {
+            CheckClicked?.Invoke(sender, e);
         }
 
         private void HelpClick(object sender, RoutedEventArgs e)

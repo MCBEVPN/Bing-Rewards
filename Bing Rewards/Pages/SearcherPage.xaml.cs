@@ -66,7 +66,7 @@ namespace Bing_Rewards.Pages
             pb.Visibility = Visibility.Collapsed;
             this.Loaded += async (s, e) =>
             {
-                await mainBorder.SlideInFromBottom(500);
+                await mainBorder.SlideInFromBottomWithinFadeIn(500);
             };
         }
 

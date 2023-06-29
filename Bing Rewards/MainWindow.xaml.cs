@@ -72,7 +72,8 @@ namespace Bing_Rewards
                 {
                     QueryControl queryControl = new(searcher.Account)
                     {
-                        Margin = new Thickness(0, 0, 0, 10)
+                        Margin = new Thickness(0, 0, 0, 10),
+                        HorizontalAlignment = HorizontalAlignment.Right
                     };
                     _ = notic.Children.Add(queryControl);
                     await queryControl.SlideIn(500);
@@ -80,6 +81,24 @@ namespace Bing_Rewards
                     await Task.Delay(5000);
                     await queryControl.SlideOut(500, 0, 360);
                     notic.Children.Remove(queryControl);
+                }
+            };
+
+            tc.CheckClicked += async (s, e) =>
+            {
+                if (frame.Content is SearcherPage searcher)
+                {
+                    CheckControl checkControl = new(searcher.Account)
+                    {
+                        Margin = new Thickness(0, 0, 0, 10),
+                        HorizontalAlignment = HorizontalAlignment.Right
+                    };
+                    _ = notic.Children.Add(checkControl);
+                    await checkControl.SlideIn(500);
+                    await checkControl.Initialize();
+                    await Task.Delay(5000);
+                    await checkControl.SlideOut(500, 0, 360);
+                    notic.Children.Remove(checkControl);
                 }
             };
 
@@ -179,7 +198,7 @@ namespace Bing_Rewards
 
         private async void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            await sbc.SlideBack(1000);
+            await sbc.SlideBackWithinFadeIn(1000);
         }
     }
 }

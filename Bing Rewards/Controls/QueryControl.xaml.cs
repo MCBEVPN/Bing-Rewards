@@ -16,6 +16,7 @@ namespace Bing_Rewards.Controls
             Account = rewardAccount;
             InitializeComponent();
         }
+
         public QueryControl()
         {
             InitializeComponent();
